@@ -20,10 +20,10 @@ PLEX_TOKEN = 'xxxxxxxxxxxxxxxxxxxx'
 ## 注意事项
 - 由于此脚本使用了模拟键盘按键的方法来跳过标记，因此它只能在桌面（Win/Mac）环境下运行，并且需要您保持 Plex 播放器窗口处于活动状态。
 - 只有当前播放的媒体包含片头或片尾标记时，此脚本才能生效，要使用自动跳过功能请确保您的媒体已经进行了片头或片尾分析，并生成了标记。
-- 由于脚本使用了 pyautogui 模块来模拟键盘按键，因此它可能会与其他正在运行的程序产生冲突。在使用此脚本时，请谨慎操作。
 
 ## 已知问题
-由于网络原因，当跳过标记出现后，可能会延迟几秒才会自动跳过。
+- 由于网络原因，当跳过标记出现后，可能会延迟几秒才会自动跳过。
+- 由于脚本使用了 pyautogui 模块来模拟键盘按键，因此它可能会与其他正在运行的程序产生冲突。
 <br>
 <br>
 
@@ -49,7 +49,7 @@ PLEX_TOKEN = 'xxxxxxxxxxxxxxxxxxxx'
 ## Notes
 - Since this script uses simulated keyboard presses to skip markers, it can only be run in a desktop (Win/Mac) environment and requires that the Plex player window be active.
 - The script will only work if the media being played contains intro or credits markers, so make sure your media has been analyzed for intros or credits and has generated markers if you want to use the automatic skipping feature.
-- Since the script uses the pyautogui module to simulate keyboard presses, it may conflict with other programs that are running. Use caution when using this script.
 
 ## Known Issues
-Due to network issues, there may be a slight delay of a few seconds before the marker is automatically skipped.
+- Due to network issues, there may be a slight delay of a few seconds before the marker is automatically skipped.
+- Since the script uses the pyautogui module to simulate keyboard presses, it may conflict with other programs that are running.
