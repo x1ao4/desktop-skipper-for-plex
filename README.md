@@ -25,7 +25,6 @@ PLEX_TOKEN = 'xxxxxxxxxxxxxxxxxxxx'
 - 由于网络原因，当跳过标记出现后，可能会延迟几秒才会自动跳过。
 - 由于脚本使用了 pyautogui 模块来模拟键盘按键，因此它可能会与其他正在运行的程序产生冲突。
 <br>
-<br>
 
 # plex-desktop-skipper
 plex-desktop-skipper is a script that allows you to automatically skip intro and credits markers when playing media on Plex for Win/Mac. The script uses the plexapi, time, and pyautogui modules to connect to a Plex server, monitor the current sessions, and simulate keyboard presses to skip markers.
