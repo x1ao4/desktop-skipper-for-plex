@@ -7,7 +7,7 @@
 
 ## 使用方法
 1. 将脚本下载到计算机上的一个目录中。
-2. 在脚本中设置您的 Plex 服务器的 URL 和令牌，将 `PLEX_URL` 和 `PLEX_TOKEN` 变量的值更改为您的 Plex 服务器的 URL 和令牌。例如：
+2. 在脚本中设置您的 Plex 服务器的 URL 和令牌，将 `PLEX_URL` 和 `PLEX_TOKEN` 变量的值更改为您的 Plex 服务器的 URL 和[令牌](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/)。例如：
 ```
 # 设置 Plex 服务器的 URL 和令牌
 PLEX_URL = 'http://127.0.0.1:32400'
@@ -35,7 +35,7 @@ plex-desktop-skipper is a script that allows you to automatically skip intro and
 
 ## Usage
 1. Clone or download the repository to a directory on your computer.
-2. Set the URL and token for your Plex server in the script by changing the values of the `PLEX_URL` and `PLEX_TOKEN` variables. For example:
+2. Set the URL and [token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/) for your Plex server in the script by changing the values of the `PLEX_URL` and `PLEX_TOKEN` variables. For example:
 ```
 # Set the URL and token for the Plex server
 PLEX_URL = 'http://127.0.0.1:32400'
