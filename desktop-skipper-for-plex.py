@@ -1,13 +1,44 @@
-from plexapi.server import PlexServer
 import time
+import logging
+import requests
 import pyautogui
+from pathlib import Path
+from configparser import ConfigParser
+from plexapi.server import PlexServer
 
 # 设置 pyautogui 函数之间的延迟
 pyautogui.PAUSE = 0.1
 
-# 设置 Plex 服务器的 URL 和令牌
-PLEX_URL = 'your_plex_server_url'
-PLEX_TOKEN = 'your-plex-token'
+# 初始化设置
+def initialize_settings():
+    # 设置日志记录器
+    logger = logging.getLogger(__name__)
+    logging.basicConfig(level=logging.INFO, format='%(message)s')
+
+    # 读取配置文件
+    config_file = Path(__file__).parent / 'config' / 'config.ini'
+    config = ConfigParser()
+    config.read(config_file)
+
+    server_address = config.get('server', 'address')
+    token = config.get('server', 'token')
+    language = config.get('server', 'language')
+
+    try:
+        # 连接到 Plex 服务器
+        headers = {'X-Plex-Token': token, 'Accept': 'application/json'}
+        response = requests.get(server_address, headers=headers)
+        response.raise_for_status()
+        server_name = response.json()['MediaContainer']['friendlyName']
+        logger.info(f"已成功连接到服务器：{server_name}" if language == 'zh' else f"Successfully connected to server: {server_name}")
+        return server_address, token, language
+    except requests.exceptions.RequestException as err:
+        logger.error("服务器连接失败，请检查配置文件的设置是否有误。如需帮助，请访问 https://github.com/x1ao4/desktop-skipper-for-plex 查看使用说明。\n" if language == 'zh' else "Server connection failed, please check the settings in the configuration file. For help, please visit https://github.com/x1ao4/desktop-skipper-for-plex for instructions.\n")
+        time.sleep(10)
+        raise SystemExit(err)
+
+# 获取初始化设置
+PLEX_URL, PLEX_TOKEN, LANGUAGE = initialize_settings()
 
 # 连接到 Plex 服务器
 plex = PlexServer(PLEX_URL, PLEX_TOKEN)
@@ -20,6 +51,9 @@ marker_times = {}
 
 # 创建一个字典来存储每个会话的最后检查时间
 last_check_times = {}
+
+# 初始化日志记录器
+logger = logging.getLogger(__name__)
 
 # 无限循环运行脚本
 while True:
@@ -41,10 +75,10 @@ while True:
                 # 检查媒体类型
                 if session.type == 'episode':
                     # 打印电视剧标题
-                    print(f'正在播放: {session.grandparentTitle} - {session.title}')
+                    logger.info(f'\n正在播放：{session.grandparentTitle} - {session.title}' if LANGUAGE == 'zh' else f'\nNow playing: {session.grandparentTitle} - {session.title}')
                 elif session.type == 'movie':
                     # 打印电影标题
-                    print(f'正在播放: {session.title}')
+                    logger.info(f'\n正在播放：{session.title}' if LANGUAGE == 'zh' else f'\nNow playing: {session.title}')
                 else:
                     # 未知媒体类型，不执行任何操作
                     pass
@@ -77,9 +111,9 @@ while True:
                             start_time = marker.start / 1000
                             end_time = marker.end / 1000
                             intro_times.append(f'{time.strftime("%H:%M:%S", time.gmtime(start_time))}-{time.strftime("%H:%M:%S", time.gmtime(end_time))}')
-                        print(f'片头标记: {", ".join(intro_times)}')
+                        logger.info(f'片头标记：{", ".join(intro_times)}' if LANGUAGE == 'zh' else f'Intro markers: {", ".join(intro_times)}')
                     else:
-                        print('片头标记: 无')
+                        logger.info('片头标记：无' if LANGUAGE == 'zh' else 'Intro markers: None')
 
                     if credits_marker:
                         credits_times = []
@@ -87,9 +121,9 @@ while True:
                             start_time = marker.start / 1000
                             end_time = marker.end / 1000
                             credits_times.append(f'{time.strftime("%H:%M:%S", time.gmtime(start_time))}-{time.strftime("%H:%M:%S", time.gmtime(end_time))}')
-                        print(f'片尾标记: {", ".join(credits_times)}')
+                        logger.info(f'片尾标记：{", ".join(credits_times)}\n' if LANGUAGE == 'zh' else f'Credits markers: {", ".join(credits_times)}\n')
                     else:
-                        print('片尾标记: 无')
+                        logger.info('片尾标记：无\n' if LANGUAGE == 'zh' else 'Credits markers: None\n')
 
                     # 在字典中存储标记时间
                     marker_times[session.ratingKey] = {
@@ -98,9 +132,8 @@ while True:
                     }
                 except Exception as e:
                     # 发生错误，打印错误消息
-                    print(f'Error: {e}')
+                    logger.error(f"发生错误：{e}" if LANGUAGE == 'zh' else f"Error: {e}")
 
-                print()
             else:
                 # 会话已经被打印过，检查是否需要跳过任何标记
 
@@ -117,10 +150,8 @@ while True:
                     for intro_time in intro_times:
                         if current_time >= intro_time[0] and current_time <= intro_time[1]:
                             # 我们已经到达了一个片头标记，按回车键跳过它
-
                             pyautogui.press('enter')
-                            print('跳过片头')
-                            print()
+                            logger.info('已跳过片头' if LANGUAGE == 'zh' else 'Intro skipped')
 
                             # 从列表中删除这个片头时间，以便我们不再跳过它
                             intro_times.remove(intro_time)
@@ -131,10 +162,8 @@ while True:
                     for credits_time in credits_times:
                         if current_time >= credits_time[0] and current_time <= credits_time[1]:
                             # 我们已经到达了一个片尾标记，按回车键跳过它
-
                             pyautogui.press('enter')
-                            print('跳过片尾')
-                            print()
+                            logger.info('已跳过片尾' if LANGUAGE == 'zh' else 'Credits skipped')
 
                             # 从列表中删除这个片尾时间，以便我们不再跳过它
                             credits_times.remove(credits_time)
