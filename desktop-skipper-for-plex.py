@@ -38,7 +38,7 @@ def initialize_settings():
         logger.info(f"已成功连接到服务器：{server_name}" if language == 'zh' else f"Successfully connected to server: {server_name}")
         return server_address, token, language, auto_play_next, users
     except requests.exceptions.RequestException as err:
-        logger.error("服务器连接失败，请检查配置文件的设置是否有误。如需帮助，请访问 https://github.com/x1ao4/desktop-skipper-for-plex 查看使用说明。\n" if language == 'zh' else "Server connection failed, please check the settings in the configuration file. For help, please visit https://github.com/x1ao4/desktop-skipper-for-plex for instructions.\n")
+        logger.error("服务器连接失败，请检查配置文件或网络的设置是否有误。如需帮助，请访问 https://github.com/x1ao4/desktop-skipper-for-plex 查看使用说明。\n" if language == 'zh' else "Server connection failed, please check the settings in the configuration file or your network. For help, please visit https://github.com/x1ao4/desktop-skipper-for-plex for instructions. \n")
         time.sleep(10)
         raise SystemExit(err)
 
