@@ -1,54 +1,146 @@
-# plex-desktop-skipper
-使用 plex-desktop-skipper 可以让您在使用 Plex for Win/Mac 播放媒体时自动跳过片头和片尾标记。该脚本会使用 plexapi、time 和 pyautogui 模块连接到 Plex 服务器，监控当前会话并模拟键盘按键以跳过标记。
+# Desktop Skipper for Plex <a name="desktop-skipper-for-plex-zh"></a>
+<a href="#desktop-skipper-for-plex-en">Switch to English</a>
+
+Plex 在 2023 年 10 月为部分播放端增加了自动跳过片头、自动跳过片尾及自定义播放下一个倒计时时长等[功能](https://forums.plex.tv/t/player-experience/857990)，遗憾的是桌面端的 Plex for Windows/Mac 至今依然没有增加这些功能，你依然需要手动点击跳过按钮，并且需要等待 10 秒的倒计时才会自动播放下一个项目。
+
+由于 Plex for Windows/Mac 的远程控制功能在很久之前就被[移除](https://forums.plex.tv/t/plex-for-mac-windows-and-linux/446435/63)了，所以我们也无法通过 API 或其他方式来远程控制这些播放器。我没有找到任何支持 Plex for Windows 或 Plex for Mac 的自动化工具，于是自己编写了这个脚本。
+
+当你在 Plex for Windows/Mac 上观看视频时，使用 Desktop Skipper for Plex（下文简称 DSP）可以通过模拟键盘操作的方式，在播放进度到达片头标记（若存在）、片尾标记（若存在）或播放下一个倒计时后，通过模拟按下 `回车键` 或 `空格键` 来实现自动跳过片头、自动跳过片尾和自动播放下一个（支持自定义播放下一个倒计时时长）功能。
+
+## 运行说明
+- DSP 仅对指定服务器上的视频播放生效。
+- DSP 仅对运行 DSP 的设备上的视频播放生效。
+- DSP 仅在 Plex for Windows/Mac 窗口处于活动状态时生效（包括全屏状态）。
+- DSP 仅对 Plex for Windows/Mac 生效。
+
+## 配置说明
+在使用 DSP 前，请先参考以下提示（示例）对 `/config/config.ini` 进行配置。
+```
+[server]
+# Plex 服务器的地址，格式为 http://服务器 IP 地址:32400 或 http(s)://域名:端口号
+address = http://127.0.0.1:32400
+# Plex 服务器的 token，用于身份验证
+token = xxxxxxxxxxxxxxxxxxxx
+# 语言设置，zh 代表中文，en 代表英文
+language = zh
+
+[preferences]
+# 设置播放下一个倒计时的时长，范围为 1 到 8 秒，支持小数
+countdown_seconds = 1.5
+# 设置 DSP 对哪些用户的播放生效，格式为用户甲；用户乙；用户丙，如果希望 DSP 对所有用户生效，可以留空
+users = 用户甲；用户乙；用户丙
+```
+DSP 在连接到你的服务器后，会实时监控服务器上的所有播放活动，并筛选出 Plex for Windows/Mac 上的播放活动，然后跟踪这些播放。当播放进度到达片头、片尾标记时（若存在），会模拟键盘按下 `回车键` 来实现自动跳过标记；当视频播放结束后，会根据你设置的倒计时时长，等待对应的秒数后模拟键盘按下 `空格键` 来实现自动播放下一个项目（前提是开启了自动播放功能）。
+
+由于网络连接情况的差异，模拟按键的操作在某些情况下可能发生延迟。目前没有找到更好的方案来判断播放是否来自本机，若希望 DSP 工作的更加精准，建议在 `preferences` 里设置本机 Plex for Windows/Mac 的常用用户（在 `users` 处填写常用用户的用户名），这样，就只有这些常用用户的播放活动会被监测，DSP 将仅对这些指定的用户生效。
 
 ## 运行条件
-- 安装了 Python 3.0 或更高版本。
-- 安装了必要的第三方库：plexapi 和 pyautogui。
+- 安装了 Python 3.6 或更高版本。
+- 使用命令 `pip3 install -r requirements.txt` 安装了必要的第三方库。
 
 ## 使用方法
-1. 将脚本下载到计算机上的一个目录中。
-2. 在脚本中设置您的 Plex 服务器的 URL 和令牌，将 `PLEX_URL` 和 `PLEX_TOKEN` 变量的值更改为您的 Plex 服务器的 URL 和[令牌](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/)。例如：
-```
-# 设置 Plex 服务器的 URL 和令牌
-PLEX_URL = 'http://127.0.0.1:32400'
-PLEX_TOKEN = 'xxxxxxxxxxxxxxxxxxxx'
-```
-3. 修改 `start.command (Mac)` 或 `start.bat (Win)` 中的路径，以指向您存放 `plex-desktop-skipper.py` 脚本的目录。
-4. 双击运行 `start.command` 或 `start.bat` 脚本以执行 `plex-desktop-skipper.py` 脚本。
-5. 脚本将开始监控您的 Plex 服务器，当检测到正在播放的媒体包含片头或片尾标记时，脚本将模拟按下回车键以跳过标记。您可以在控制台中查看已播放媒体的标记信息和跳过信息。
+1. 通过 [Releases](https://github.com/x1ao4/desktop-skipper-for-plex/releases) 下载最新版本的压缩包并解压到本地目录中。
+2. 用记事本或文本编辑打开目录中的 `/config/config.ini` 文件，填写你的 Plex 服务器地址（`address`）和 [X-Plex-Token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/)（`token`），按照需要选填其他配置选项。
+3. 双击 `dsp.bat (Win)` 或 `dsp.command (Mac)` 即可启动 DSP。
+4. DSP 将在启动后持续监控服务器的所有播放活动，并在满足条件时通过模拟键盘按键的方式实现自动跳过片头、自动跳过片尾和自动播放下一个功能。同时也会在控制台显示对应播放活动的信息和处理结果。
+
+## 自动运行
+为了便于使用，你也可以通过 crontab 或其他任务工具，将 DSP 设置为开机启动任务，实现开机自动运行。Mac 用户可参考以下步骤进行设置：
+
+1. 用文本编辑打开 `dsp.command` 文件，在第二行输入 `sleep 10` 保存更改并关闭文件。
+2. 在终端使用命令 `crontab -e` 打开 crontab 文件。
+3. 按 `i` 进入插入模式，添加行 `@reboot /path/to/dsp.command`。（请把 `/path/to/dsp.command` 替换为脚本的实际路径）
+4. 按 `Esc` 退出插入模式，输入 `:wq`，按 `Enter` 保存更改并退出编辑器。
+
+这样我们就将 DSP 设置为了 Mac 的开机启动任务，DSP 会在开机 10 秒后自动运行，延迟 10 秒是为了保证 Plex 服务器比脚本先启动，否则脚本将无法连接到 Plex 服务器。（脚本将在后台运行）
+
+若设置为开机启动任务后脚本运行失败，你可能需要将 command 脚本中的 `python3` 替换为 `python3` 的实际路径。你可以在 Mac 终端内通过命令 `which python3` 找到 `python3` 的实际路径。
 
 ## 注意事项
-- 由于此脚本使用了模拟键盘按键的方法来跳过标记，因此它只能在桌面（Win/Mac）环境下运行，并且需要您保持 Plex 播放器窗口处于活动状态。
-- 只有当前播放的媒体包含片头或片尾标记时，此脚本才能生效，要使用自动跳过功能请确保您的媒体已经进行了片头或片尾分析，并生成了标记。
+- 请确保你提供了正确的 Plex 服务器地址和正确的 X-Plex-Token。
+- 请确保你提供了正确的用户名，并按要求进行了填写。
+- 如果无法连接到 Plex 服务器，请检查你的网络连接，并确保服务器可以访问。
+- 修改配置文件后，需要重启脚本，新的配置信息才会生效。
+- Windows 用户运行脚本后，若没有任何反应，请将启动脚本中的 `python3` 替换为 `python` 再运行。
 
-## 已知问题
-- 由于网络原因，当跳过标记出现后，可能会延迟几秒才会自动跳过。
-- 由于脚本使用了 pyautogui 模块来模拟键盘按键，因此它可能会与其他正在运行的程序产生冲突。
+## 赞赏
+如果你觉得这个项目对你有用，可以请我喝杯咖啡。如果你喜欢这个项目，可以给我一个⭐️。谢谢你的支持！
+
+<img width="399" alt="赞赏" src="https://github.com/x1ao4/desktop-skipper-for-plex/assets/112841659/73b7f053-570e-48c0-8136-3895eabaa2ba">
+<br><br>
+<a href="#desktop-skipper-for-plex-zh">回到顶部</a>
+<br>
+<br>
 <br>
 
-# plex-desktop-skipper
-plex-desktop-skipper is a script that allows you to automatically skip intro and credits markers when playing media on Plex for Win/Mac. The script uses the plexapi, time, and pyautogui modules to connect to a Plex server, monitor the current sessions, and simulate keyboard presses to skip markers.
+# Desktop Skipper for Plex <a name="desktop-skipper-for-plex-en"></a>
+<a href="#desktop-skipper-for-plex-zh">切换至中文</a>
+
+In October 2023, Plex added [features](https://forums.plex.tv/t/player-experience/857990) such as automatic skipping of intros, automatic skipping of credits, and custom auto play countdown times to some of its playback clients. Unfortunately, Plex for Windows/Mac still lacks these features. You still need to manually click the skip button and wait for the 10-second countdown to auto-play the next item.
+
+Since the remote control (Advertise as Player) feature for Plex for Windows/Mac was [removed](https://forums.plex.tv/t/plex-for-mac-windows-and-linux/446435/63) a long time ago, we cannot remotely control these players via API or other means. I couldn’t find any automation tool supporting Plex for Windows or Plex for Mac, so I wrote this script myself.
+
+When watching videos on Plex for Windows/Mac, you can use Desktop Skipper for Plex (hereinafter referred to as DSP) to simulate keyboard actions. When the playback reaches the intro marker (if present), the credits marker (if present), or the auto play countdown, DSP simulates pressing the `Enter` or `Space` key to automatically skip the intro, skip the credits, and auto-play the next item (with customizable auto play countdown times).
+
+## Instructions
+- DSP only works for video playback on the specified server.
+- DSP only works for video playback on the device running DSP.
+- DSP only works when the Plex for Windows/Mac window is active (including fullscreen mode).
+- DSP only works for Plex for Windows/Mac.
+
+## Config
+Before using DSP, please configure the `/config/config.ini` file according to the following tips (example).
+```
+[server]
+# Address of the Plex server, formatted as http://server IP address:32400 or http(s)://domain:port
+address = http://127.0.0.1:32400
+# Token of the Plex server for authentication
+token = xxxxxxxxxxxxxxxxxxxx
+# Language setting, zh for Chinese, en for English
+language = en
+
+[preferences]
+# Set the duration of the auto play countdown time, range from 1 to 8 seconds, supports decimals
+countdown_seconds = 1.5
+# Set which users’ playback DSP applies to, format as UserA;UserB;UserC. Leave blank to apply to all users
+users = UserA;UserB;UserC
+```
+After connecting to your server, DSP will monitor all playback activities on the server in real-time and filter out playback activities on Plex for Windows/Mac. When the playback reaches the intro or credits markers (if present), DSP simulates pressing the `Enter` key to skip the markers. After the video ends, DSP waits for the set countdown duration and simulates pressing the `Space` key to auto-play the next item (provided the auto-play feature is enabled).
+
+Due to differences in network conditions, simulated keystrokes might be delayed in some cases. Currently, there is no better way to determine if playback originates from the local machine. To make DSP more accurate, it is recommended to set the usual users of Plex for Windows/Mac in the `preferences` section (fill in the usual usernames under `users`). This way, only playback activities of these specified users will be monitored, and DSP will only apply to these users.
 
 ## Requirements
-- Python 3.0 or higher installed.
-- Required third-party libraries: plexapi and pyautogui.
+- Python 3.6 or higher installed.
+- Necessary third-party libraries installed using the command `pip3 install -r requirements.txt`.
 
 ## Usage
-1. Clone or download the repository to a directory on your computer.
-2. Set the URL and [token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/) for your Plex server in the script by changing the values of the `PLEX_URL` and `PLEX_TOKEN` variables. For example:
-```
-# Set the URL and token for the Plex server
-PLEX_URL = 'http://127.0.0.1:32400'
-PLEX_TOKEN = 'xxxxxxxxxxxxxxxxxxxx'
-```
-3. Modify the path in `start.command (Mac)` or `start.bat (Win)` to point to the directory where you store the `plex-desktop-skipper.py` script.
-4. Double-click `start.command` or `start.bat` to execute the `plex-desktop-skipper.py` script.
-5. The script will start monitoring your Plex server, and when it detects that media being played contains intro or credits markers, it will simulate pressing the enter key to skip them. You can view marker information and skip information for played media in the console.
+1. Download the latest release package from [Releases](https://github.com/x1ao4/desktop-skipper-for-plex/releases) and extract it to a local directory.
+2. Open the `/config/config.ini` file in the directory using a text editor, fill in your Plex server address (`address`) and [X-Plex-Token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/) (`token`), and fill in other configuration options as needed.
+3. Double-click `dsp.bat (Win)` or `dsp.command (Mac)` to start DSP.
+4. Once started, DSP will continuously monitor all playback activities on the server and simulate keystrokes to auto-skip intros, auto-skip credits, and auto-play the next item when conditions are met. Corresponding playback activity information and results will also be displayed in the console.
+
+## Automation
+For convenience, you can set DSP to run automatically at startup using crontab or other task tools. Mac users can follow these steps:
+
+1. Open the `dsp.command` file with a text editor, add `sleep 10` on the second line, save the changes, and close the file.
+2. Open the crontab file in the terminal with the command `crontab -e`.
+3. Press `i` to enter insert mode and add the line `@reboot /path/to/dsp.command` (replace `/path/to/dsp.command` with the actual path to your script).
+4. Press `Esc` to exit insert mode, type `:wq`, and press `Enter` to save changes and exit the editor.
+
+Now, DSP is set to run automatically at Mac startup, and DSP will run 10 seconds after startup. The 10-second delay ensures that the Plex server starts before the script; otherwise, the script will fail to connect to the Plex server (the script will run in the background).
+
+If the script fails to run after being set as a startup task, you may need to replace `python3` in the command script with the actual path of `python3`. You can find the actual path of `python3` in the Mac terminal by using the command `which python3`.
 
 ## Notes
-- Since this script uses simulated keyboard presses to skip markers, it can only be run in a desktop (Win/Mac) environment and requires that the Plex player window be active.
-- The script will only work if the media being played contains intro or credits markers, so make sure your media has been analyzed for intros or credits and has generated markers if you want to use the automatic skipping feature.
+- Ensure you provide the correct Plex server address and the correct X-Plex-Token.
+- Ensure you provide the correct usernames and fill them in as required.
+- If you cannot connect to the Plex server, check your network connection and ensure the server is accessible.
+- After modifying the configuration file, restart the script for the new settings to take effect.
+- If Windows users see no response after running the script, try replacing `python3` with `python` in the startup script.
 
-## Known Issues
-- Due to network issues, there may be a slight delay of a few seconds before the marker is automatically skipped.
-- Since the script uses the pyautogui module to simulate keyboard presses, it may conflict with other programs that are running.
+## Support
+If you found this helpful, consider buying me a coffee or giving it a ⭐️. Thanks for your support!
+
+<img width="399" alt="Support" src="https://github.com/x1ao4/desktop-skipper-for-plex/assets/112841659/73b7f053-570e-48c0-8136-3895eabaa2ba">
+<br><br>
+<a href="#desktop-skipper-for-plex-en">Back to Top</a>
