@@ -49,10 +49,10 @@ DSP 在连接到你的服务器后，会实时监控服务器上的所有播放�
 
 1. 用文本编辑打开 `dsp.command` 文件，在第二行输入 `sleep 10` 保存更改并关闭文件。
 2. 在终端使用命令 `crontab -e` 打开 crontab 文件。
-3. 按 `i` 进入插入模式，添加行 `@reboot /path/to/dsp.command`。（请把 `/path/to/dsp.command` 替换为脚本的实际路径）
+3. 按 `i` 进入插入模式，添加行 `@reboot /path/to/dsp.command`（请把 `/path/to/dsp.command` 替换为脚本的实际路径）。
 4. 按 `Esc` 退出插入模式，输入 `:wq`，按 `Enter` 保存更改并退出编辑器。
 
-这样我们就将 DSP 设置为了 Mac 的开机启动任务，DSP 会在开机 10 秒后自动运行，延迟 10 秒是为了保证 Plex 服务器比脚本先启动，否则脚本将无法连接到 Plex 服务器。（脚本将在后台运行）
+这样我们就将 DSP 设置为了 Mac 的开机启动任务，DSP 会在开机 10 秒后自动运行，延迟 10 秒是为了保证 Plex 服务器比脚本先启动，否则脚本将无法连接到 Plex 服务器（脚本将在后台运行）。
 
 若设置为开机启动任务后脚本运行失败，你可能需要将 command 脚本中的 `python3` 替换为 `python3` 的实际路径。你可以在 Mac 终端内通过命令 `which python3` 找到 `python3` 的实际路径。
 
