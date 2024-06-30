@@ -77,7 +77,7 @@ DSP 在连接到你的服务器后，会实时监控服务器上的所有播放�
 # Desktop Skipper for Plex <a name="desktop-skipper-for-plex-en"></a>
 <a href="#desktop-skipper-for-plex-zh">切换至中文</a>
 
-In October 2023, Plex added [features](https://forums.plex.tv/t/player-experience/857990) such as automatic skipping of intros, automatic skipping of credits, and custom auto play countdown times to some of its playback clients. Unfortunately, Plex for Windows/Mac still lacks these features. You still need to manually click the skip button and wait for the 10-second countdown to auto-play the next item.
+In October 2023, Plex added [features](https://forums.plex.tv/t/player-experience/857990) such as automatic intro skipping, automatic credits skipping, and customizable auto play countdown time to some of its playback clients. Unfortunately, Plex for Windows/Mac still lacks these features. You still need to manually click the skip button and wait for the 10-second countdown to auto-play the next item.
 
 Since the remote control (Advertise as Player) feature for Plex for Windows/Mac was [removed](https://forums.plex.tv/t/plex-for-mac-windows-and-linux/446435/63) a long time ago, we cannot remotely control these players via API or other means. I couldn’t find any automation tool supporting Plex for Windows or Plex for Mac, so I wrote this script myself.
 
