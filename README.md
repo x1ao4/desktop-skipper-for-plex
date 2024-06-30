@@ -62,6 +62,7 @@ DSP 在连接到你的服务器后，会实时监控服务器上的所有播放�
 - 如果无法连接到 Plex 服务器，请检查你的网络连接，并确保服务器可以访问。
 - 修改配置文件后，需要重启脚本，新的配置信息才会生效。
 - 在同一次播放中，每个标记只会被自动跳过一次。
+- 自动跳过片头和自动跳过片尾功能仅在项目存在标记时生效。
 - Windows 用户运行脚本后，若没有任何反应，请将启动脚本中的 `python3` 替换为 `python` 再运行。
 
 ## 赞赏
@@ -138,6 +139,7 @@ If the script fails to run after being set as a startup task, you may need to re
 - If you cannot connect to the Plex server, check your network connection and ensure the server is accessible.
 - After modifying the configuration file, restart the script for the new settings to take effect.
 - During the same playback session, each marker will only be skipped automatically once.
+- The automatic intro skipping and automatic credits skipping functions only take effect when there are markers present in the item.
 - If Windows users see no response after running the script, try replacing `python3` with `python` in the startup script.
 
 ## Support
