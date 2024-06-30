@@ -42,7 +42,7 @@ DSP 在连接到你的服务器后，会实时监控服务器上的所有播放�
 1. 通过 [Releases](https://github.com/x1ao4/desktop-skipper-for-plex/releases) 下载最新版本的压缩包并解压到本地目录中。
 2. 用记事本或文本编辑打开目录中的 `/config/config.ini` 文件，填写你的 Plex 服务器地址（`address`）和 [X-Plex-Token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/)（`token`），按照需要选填其他配置选项。
 3. 双击 `dsp.bat (Win)` 或 `dsp.command (Mac)` 即可启动 DSP。
-4. DSP 将在启动后持续监控服务器的所有播放活动，并在满足条件时通过模拟键盘按键的方式实现自动跳过片头、自动跳过片尾和自动播放下一个功能。同时也会在控制台显示对应播放活动的信息和处理结果。
+4. DSP 将在启动后持续监控服务器上的所有播放活动，并在满足条件时通过模拟键盘按键的方式实现自动跳过片头、自动跳过片尾和自动播放下一个功能。同时也会在控制台显示对应播放活动的信息和处理结果。
 
 ## 自动运行
 为了便于使用，你也可以通过 crontab 或其他任务工具，将 DSP 设置为开机启动任务，实现开机自动运行。Mac 用户可参考以下步骤进行设置：
