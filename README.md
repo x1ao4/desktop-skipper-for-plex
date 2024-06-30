@@ -106,9 +106,9 @@ countdown_seconds = 1.5
 # Set which users’ playback DSP applies to, format as UserA;UserB;UserC. Leave blank to apply to all users
 users = UserA;UserB;UserC
 ```
-After connecting to your server, DSP will monitor all playback activities on the server in real-time and filter out playback activities on Plex for Windows/Mac. When the playback reaches the intro or credits markers (if present), DSP simulates pressing the `Enter` key to skip the markers. After the video ends, DSP waits for the set countdown duration and simulates pressing the `Space` key to auto-play the next item (provided the auto-play feature is enabled).
+After connecting to your server, DSP will monitor all playback sessions on the server in real-time and filter out playback sessions on Plex for Windows/Mac. When the playback reaches the intro or credits markers (if present), DSP simulates pressing the `Enter` key to skip the markers. After the video ends, DSP waits for the set countdown duration and simulates pressing the `Space` key to auto-play the next item (provided the auto-play feature is enabled).
 
-Due to differences in network conditions, simulated keystrokes might be delayed in some cases. Currently, there is no better way to determine if playback originates from the local machine. To make DSP more accurate, it is recommended to set the usual users of Plex for Windows/Mac in the `preferences` section (fill in the usual usernames under `users`). This way, only playback activities of these specified users will be monitored, and DSP will only apply to these users.
+Due to differences in network conditions, simulated keystrokes might be delayed in some cases. Currently, there is no better way to determine if playback originates from the local machine. To make DSP more accurate, it is recommended to set the usual users of Plex for Windows/Mac in the `preferences` section (fill in the usual usernames under `users`). This way, only playback sessions of these specified users will be monitored, and DSP will only apply to these users.
 
 ## Requirements
 - Python 3.6 or higher installed.
@@ -118,7 +118,7 @@ Due to differences in network conditions, simulated keystrokes might be delayed 
 1. Download the latest release package from [Releases](https://github.com/x1ao4/desktop-skipper-for-plex/releases) and extract it to a local directory.
 2. Open the `/config/config.ini` file in the directory using a text editor, fill in your Plex server address (`address`) and [X-Plex-Token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/) (`token`), and fill in other configuration options as needed.
 3. Double-click `dsp.bat (Win)` or `dsp.command (Mac)` to start DSP.
-4. Once started, DSP will continuously monitor all playback activities on the server and simulate keystrokes to auto-skip intros, auto-skip credits, and auto-play the next item when conditions are met. Corresponding playback activity information and results will also be displayed in the console.
+4. Once started, DSP will continuously monitor all playback sessions on the server and simulate keystrokes to auto-skip intros, auto-skip credits, and auto-play the next item when conditions are met. Corresponding playback session information and results will also be displayed in the console.
 
 ## Automation
 For convenience, you can set DSP to run automatically at startup using crontab or other task tools. Mac users can follow these steps:
