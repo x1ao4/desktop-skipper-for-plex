@@ -121,7 +121,7 @@ Due to differences in network conditions, simulated keystrokes might be delayed 
 3. Double-click `dsp.bat (Win)` or `dsp.command (Mac)` to start DSP.
 4. Once started, DSP will continuously monitor all playback sessions on the server and simulate keystrokes to auto-skip intros, auto-skip credits, and auto-play the next item when conditions are met. Corresponding playback session information and results will also be displayed in the console.
 
-## Automation
+## Auto-Run Setup
 For convenience, you can set DSP to run automatically at startup using crontab or other task tools. Mac users can follow these steps:
 
 1. Open the `dsp.command` file with a text editor, add `sleep 10` on the second line, save the changes, and close the file.
