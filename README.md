@@ -90,7 +90,7 @@ When watching videos on Plex for Windows/Mac, you can use Desktop Skipper for Pl
 - DSP only works when the Plex for Windows/Mac window is active (including fullscreen mode).
 - DSP only works for Plex for Windows/Mac.
 
-## Config
+## Configuration
 Before using DSP, please configure the `/config/config.ini` file according to the following tips (example).
 ```
 [server]
