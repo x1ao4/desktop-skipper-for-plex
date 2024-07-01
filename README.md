@@ -27,7 +27,7 @@ language = zh
 [preferences]
 # 设置播放下一个倒计时的时长，范围为 1 到 8 秒，支持小数
 countdown_seconds = 1.5
-# 设置 DSP 对哪些用户的播放生效，格式为用户甲；用户乙；用户丙，如果希望 DSP 对所有用户生效，可以留空
+# 设置 DSP 对哪些用户的播放生效，格式为用户名1；用户名2；用户名3，如果希望 DSP 对所有用户生效，可以留空
 users = 用户甲；用户乙；用户丙
 ```
 DSP 在连接到你的服务器后，会实时监控服务器上的所有播放活动，并筛选出 Plex for Windows/Mac 上的播放活动，然后跟踪这些播放。当播放进度到达片头、片尾标记时（若存在），会模拟键盘按下 `回车` 键来实现自动跳过标记；当视频播放结束后，会根据你设置的倒计时时长，等待对应的秒数后模拟键盘按下 `空格` 键来实现自动播放下一个项目（前提是开启了自动播放功能）。
@@ -104,7 +104,7 @@ language = en
 [preferences]
 # Set the duration of the auto play countdown time, range from 1 to 8 seconds, supports decimals
 countdown_seconds = 1.5
-# Set which users’ playback DSP applies to, format as UserA;UserB;UserC. Leave blank to apply to all users
+# Set which users’ playback DSP applies to, format as Username1;Username2;Username3. Leave blank to apply to all users
 users = UserA;UserB;UserC
 ```
 After connecting to your server, DSP will monitor all playback sessions on the server in real-time and filter out playback sessions on Plex for Windows/Mac. When the playback reaches the intro or credits markers (if present), DSP simulates pressing the `Enter` key to skip the markers. After the video ends, DSP waits for the set countdown duration and simulates pressing the `Space` key to auto-play the next item (provided the auto-play feature is enabled).
