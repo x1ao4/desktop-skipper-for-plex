@@ -25,6 +25,9 @@ def initialize_settings():
     server_address = config.get('server', 'address')
     token = config.get('server', 'token')
     language = config.get('server', 'language')
+    skip_intro = config.getboolean('preferences', 'skip_intro')
+    skip_credits = config.getboolean('preferences', 'skip_credits')
+    auto_play = config.getboolean('preferences', 'auto_play')
     countdown_seconds = config.getfloat('preferences', 'countdown_seconds')
     users = config.get('preferences', 'users')
     users = re.split('；|;', users) if users else None
@@ -36,7 +39,7 @@ def initialize_settings():
         response.raise_for_status()
         server_name = response.json()['MediaContainer']['friendlyName']
         logger.info(f"已成功连接到服务器：{server_name}" if language == 'zh' else f"Successfully connected to server: {server_name}")
-        return server_address, token, language, countdown_seconds, users
+        return server_address, token, language, skip_intro, skip_credits, auto_play, countdown_seconds, users
     except requests.exceptions.RequestException as err:
         logger.error("服务器连接失败，请检查配置文件或网络的设置是否有误。如需帮助，请访问 https://github.com/x1ao4/desktop-skipper-for-plex 查看使用说明。\n" if language == 'zh' else "Server connection failed, please check the settings in the configuration file or your network. For help, please visit https://github.com/x1ao4/desktop-skipper-for-plex for instructions. \n")
         time.sleep(10)
@@ -51,7 +54,7 @@ def is_plex_active():
         return False
 
 # 获取初始化设置
-PLEX_URL, PLEX_TOKEN, LANGUAGE, COUNTDOWN_SECONDS, USERS = initialize_settings()
+PLEX_URL, PLEX_TOKEN, LANGUAGE, SKIP_INTRO, SKIP_CREDITS, AUTO_PLAY, COUNTDOWN_SECONDS, USERS = initialize_settings()
 
 # 连接到 Plex 服务器
 plex = PlexServer(PLEX_URL, PLEX_TOKEN)
@@ -168,56 +171,59 @@ while True:
                         credits_times = marker_times[session.ratingKey]['credits']
 
                         # 检查是否需要跳过任何片头标记
-                        for intro_time in intro_times:
-                            if current_time >= intro_time[0] and current_time <= intro_time[1]:
-                                if is_plex_active():
-                                    # 我们已经到达了一个片头标记，按下回车键跳过它
-                                    pyautogui.press('enter')
-                                    logger.info('已跳过片头' if LANGUAGE == 'zh' else 'Intro skipped')
+                        if SKIP_INTRO:
+                            for intro_time in intro_times:
+                                if current_time >= intro_time[0] and current_time <= intro_time[1]:
+                                    if is_plex_active():
+                                        # 我们已经到达了一个片头标记，按下回车键跳过它
+                                        pyautogui.press('enter')
+                                        logger.info('已跳过片头' if LANGUAGE == 'zh' else 'Intro skipped')
 
-                                    # 从列表中删除这个片头时间，以便我们不再跳过它
-                                    intro_times.remove(intro_time)
+                                        # 从列表中删除这个片头时间，以便我们不再跳过它
+                                        intro_times.remove(intro_time)
 
-                                break
+                                    break
 
                         # 检查是否需要跳过任何片尾标记
-                        for credits_time in credits_times:
-                            if current_time >= credits_time[0] and current_time <= credits_time[1]:
-                                if is_plex_active():
-                                    # 我们已经到达了一个片尾标记，按下回车键跳过它
-                                    pyautogui.press('enter')
-                                    logger.info('已跳过片尾' if LANGUAGE == 'zh' else 'Credits skipped')
-
-                                    # 从列表中删除这个片尾时间，以便我们不再跳过它
-                                    credits_times.remove(credits_time)
-
-                                    # 我们已经到达了最后一个片尾标记，按下回车键跳过它
-                                    if not credits_times:
+                        if SKIP_CREDITS:
+                            for credits_time in credits_times:
+                                if current_time >= credits_time[0] and current_time <= credits_time[1]:
+                                    if is_plex_active():
+                                        # 我们已经到达了一个片尾标记，按下回车键跳过它
                                         pyautogui.press('enter')
+                                        logger.info('已跳过片尾' if LANGUAGE == 'zh' else 'Credits skipped')
 
-                                break
+                                        # 从列表中删除这个片尾时间，以便我们不再跳过它
+                                        credits_times.remove(credits_time)
+
+                                        # 我们已经到达了最后一个片尾标记，按下回车键跳过它
+                                        if not credits_times:
+                                            pyautogui.press('enter')
+
+                                    break
 
                 # 更新会话的最后检查时间
                 last_check_times[session.ratingKey] = time.time()
 
     else:
-        # 没有会话，检查是否有剧集类型的视频已经播放完毕
-        for rating_key, last_check_time in list(last_check_times.items()):
-            if time.time() - last_check_time > 1.5:
-                # 会话已经超过 1.5 秒没有被检查，认为它已经停止播放
-                del last_check_times[rating_key]
-                processed_sessions.discard(rating_key)
+        # 没有会话，检查是否有视频已经播放完毕
+        if AUTO_PLAY:
+            for rating_key, last_check_time in list(last_check_times.items()):
+                if time.time() - last_check_time > 1.5:
+                    # 会话已经超过 1.5 秒没有被检查，认为它已经停止播放
+                    del last_check_times[rating_key]
+                    processed_sessions.discard(rating_key)
 
-                # 获取会话对象
-                session = plex.fetchItem(rating_key)
+                    # 获取会话对象
+                    session = plex.fetchItem(rating_key)
 
-                # 检查会话是否来自配置文件中指定的用户
-                if not USERS or session_users.get(rating_key) in USERS:
-                    # 如果当前播放的媒体类型是剧集或电影，那么就按下空格键，以自动播放下一个
-                    if session.type in ['episode', 'movie']:
-                        time.sleep(max(0, COUNTDOWN_SECONDS - 0.5))
-                        pyautogui.press('space')
-                        logger.info('播放下一个' if LANGUAGE == 'zh' else 'Playing next')
+                    # 检查会话是否来自配置文件中指定的用户
+                    if not USERS or session_users.get(rating_key) in USERS:
+                        # 如果当前播放的媒体类型是剧集或电影，那么就按下空格键，以自动播放下一个
+                        if session.type in ['episode', 'movie']:
+                            time.sleep(max(0, COUNTDOWN_SECONDS - 0.5))
+                            pyautogui.press('space')
+                            logger.info('播放下一个' if LANGUAGE == 'zh' else 'Playing next')
 
     # 等待一段时间再次检查
     time.sleep(0.5)
