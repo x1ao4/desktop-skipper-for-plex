@@ -132,7 +132,7 @@ The features to automatically skip intro, skip credits, and play the next item a
 
 ## Usage
 1. Download the latest release package from [Releases](https://github.com/x1ao4/desktop-skipper-for-plex/releases) and extract it to a local directory.
-2. Open the `/config/config.ini` file in the directory using a text editor, fill in your Plex server address (`address`) and [X-Plex-Token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/) (`token`), and fill in other configuration options as needed.
+2. Open the `/config/config.ini` file in the directory with a text editor, fill in your Plex server address (`address`) and [X-Plex-Token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/) (`token`), and fill in other configuration options as needed.
 3. Double-click `dsp.bat (Win)` or `dsp.command (Mac)` to start DSP.
 4. Once started, DSP will continuously monitor all playback sessions on the server and simulate keystrokes to auto-skip intros, auto-skip credits, and auto-play the next item when conditions are met. Corresponding playback session information and results will also be displayed in the console.
 
