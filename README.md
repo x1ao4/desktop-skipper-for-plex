@@ -57,7 +57,7 @@ DSP 在连接到你的服务器后，会实时监控服务器上的所有播放�
 
 1. 用文本编辑打开 `dsp.plist` 文件，把 `/path/to/dsp.command` 替换为脚本的实际路径，保存更改并关闭文件。
 2. 把 `dsp.plist` 文件移动到 `~/Library/LaunchAgents` 目录下。
-3. 打开终端，输入命令 `chmod 644 ~/Library/LaunchAgents/dsp.plist && launchctl load ~/Library/LaunchAgents/dsp.plist` 按回车。
+3. 打开终端，输入命令 `chmod 644 ~/Library/LaunchAgents/dsp.plist && launchctl load ~/Library/LaunchAgents/dsp.plist` 按 `回车`。
 
 这样我们就将 DSP 设置为了 Mac 的开机启动任务，脚本会在后台自动运行。若要取消开机启动任务，在终端输入命令 `launchctl unload ~/Library/LaunchAgents/dsp.plist` 按回车即可。
 
@@ -141,7 +141,7 @@ For convenience, you can set DSP to run automatically at startup by using the La
 
 1. Open the `dsp.plist` file with a text editor, replace `/path/to/dsp.command` with the actual path to your script, save the changes, and close the file.
 2. Move the `dsp.plist` file to the `~/Library/LaunchAgents` directory.
-3. Open the terminal and enter the command `chmod 644 ~/Library/LaunchAgents/dsp.plist && launchctl load ~/Library/LaunchAgents/dsp.plist`, then press Enter.
+3. Open the terminal and enter the command `chmod 644 ~/Library/LaunchAgents/dsp.plist && launchctl load ~/Library/LaunchAgents/dsp.plist`, then press `Enter`.
 
 This sets DSP as a startup task on your Mac, so the script will run automatically in the background. To disable the startup task, enter the command `launchctl unload ~/Library/LaunchAgents/dsp.plist` in the terminal and press Enter.
 
