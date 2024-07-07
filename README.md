@@ -59,7 +59,7 @@ DSP 在连接到你的服务器后，会实时监控服务器上的所有播放�
 2. 把 `dsp.plist` 文件移动到 `~/Library/LaunchAgents` 目录下。
 3. 打开终端，输入命令 `chmod 644 ~/Library/LaunchAgents/dsp.plist && launchctl load ~/Library/LaunchAgents/dsp.plist` 按 `回车`。
 
-这样我们就将 DSP 设置为了 Mac 的开机启动任务，脚本会在后台自动运行。若要取消开机启动任务，在终端输入命令 `launchctl unload ~/Library/LaunchAgents/dsp.plist` 按回车即可。
+这样我们就将 DSP 设置为了 Mac 的开机启动任务，脚本会在后台自动运行。若要取消开机启动任务，在终端输入命令 `launchctl unload ~/Library/LaunchAgents/dsp.plist` 按 `回车` 即可。
 
 若设置为开机启动任务后脚本运行失败，你可能需要将 command 脚本中的 `python3` 替换为 `python3` 的实际路径。你可以在 Mac 终端内通过命令 `which python3` 找到 `python3` 的实际路径。
 
@@ -143,7 +143,7 @@ For convenience, you can set DSP to run automatically at startup by using the La
 2. Move the `dsp.plist` file to the `~/Library/LaunchAgents` directory.
 3. Open the terminal and enter the command `chmod 644 ~/Library/LaunchAgents/dsp.plist && launchctl load ~/Library/LaunchAgents/dsp.plist`, then press `Enter`.
 
-This sets DSP as a startup task on your Mac, so the script will run automatically in the background. To disable the startup task, enter the command `launchctl unload ~/Library/LaunchAgents/dsp.plist` in the terminal and press Enter.
+This sets DSP as a startup task on your Mac, so the script will run automatically in the background. To disable the startup task, enter the command `launchctl unload ~/Library/LaunchAgents/dsp.plist` in the terminal and press `Enter`.
 
 If the script fails to run after being set as a startup task, you may need to replace `python3` in the command script with the actual path of `python3`. You can find the actual path of `python3` in the Mac terminal by using the command `which python3`.
 
