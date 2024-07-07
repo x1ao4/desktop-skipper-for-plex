@@ -109,7 +109,7 @@ token = xxxxxxxxxxxxxxxxxxxx
 language = en
 
 [preferences]
-# Automatically skip intros, true for yes, false for no
+# Automatically skip intro, true for yes, false for no
 skip_intro = true
 # Automatically skip credits, true for yes, false for no
 skip_credits = true
@@ -124,7 +124,7 @@ After connecting to your server, DSP will monitor all playback sessions on the s
 
 Due to differences in network conditions, simulated keystrokes might be delayed in some cases. Currently, there is no better way to determine if playback originates from the local machine. To make DSP more accurate, it is recommended to set the usual users of Plex for Windows/Mac in the `preferences` section (fill in the usual usernames under `users`). This way, only playback sessions of these specified users will be monitored, and DSP will only apply to these users.
 
-The features to automatically skip intros, skip credits, and play the next item are enabled by default. If you don't need any of these features, you can set the corresponding parameter to `false` in the configuration file (this change will take effect after restarting the script). To completely disable the auto-play next feature, you also need to uncheck `AUTO PLAY ON` in Plex.
+The features to automatically skip intro, skip credits, and play the next item are enabled by default. If you don't need any of these features, you can set the corresponding parameter to `false` in the configuration file (this change will take effect after restarting the script). To completely disable the auto-play next feature, you also need to uncheck `AUTO PLAY ON` in Plex.
 
 ## Requirements
 - Python 3.6 or higher installed.
