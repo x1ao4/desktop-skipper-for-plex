@@ -75,7 +75,7 @@ DSP 在连接到你的服务器后，会实时监控服务器上的所有播放�
 ## 赞赏
 如果你觉得这个项目对你有用，可以请我喝杯咖啡。如果你喜欢这个项目，可以给我一个⭐️。谢谢你的支持！
 
-<img width="399" alt="赞赏" src="https://github.com/x1ao4/desktop-skipper-for-plex/assets/112841659/786c587c-45eb-49fa-9ce7-8e6acbe0a007">
+<img width="399" alt="赞赏" src="https://github.com/x1ao4/desktop-skipper-for-plex/assets/112841659/938ec50b-af14-4dbb-a8e2-0cd63352e492">
 <br><br>
 <a href="#desktop-skipper-for-plex-zh">回到顶部</a>
 <br>
@@ -159,6 +159,6 @@ If the script fails to run after being set as a startup task, you may need to re
 ## Support
 If you found this helpful, consider buying me a coffee or giving it a ⭐️. Thanks for your support!
 
-<img width="399" alt="Support" src="https://github.com/x1ao4/desktop-skipper-for-plex/assets/112841659/786c587c-45eb-49fa-9ce7-8e6acbe0a007">
+<img width="399" alt="Support" src="https://github.com/x1ao4/desktop-skipper-for-plex/assets/112841659/938ec50b-af14-4dbb-a8e2-0cd63352e492">
 <br><br>
 <a href="#desktop-skipper-for-plex-en">Back to Top</a>
