@@ -50,8 +50,8 @@ def initialize_settings():
 # 检查当前活动窗口是否为 Plex
 def is_plex_active():
     try:
-        active_window_title = gw.getActiveWindow().title()
-        return active_window_title in ['Plex', 'Plex ', 'Plex Plex']
+        active_window_title = gw.getActiveWindow().title
+        return active_window_title == 'Plex'
     except Exception:
         return False
 
