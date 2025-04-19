@@ -14,7 +14,7 @@ Plex 在 2023 年 10 月为部分播放端增加了自动跳过片头、自动�
 - DSP 仅对 Plex for Windows/Mac 生效。
 
 ## 配置说明
-在使用 DSP 前，请先参考以下提示（示例）对 `/config/config.ini` 进行配置。
+运行前，请先参考以下提示（示例）对 `/config/config.ini` 进行配置。
 ```
 [server]
 # Plex 服务器的地址，格式为 http://服务器 IP 地址:32400 或 http(s)://域名:端口号
@@ -70,12 +70,12 @@ DSP 在连接到你的服务器后，会实时监控服务器上的所有播放�
 - 修改配置文件后，需要重启脚本，新的配置信息才会生效。
 - 在同一次播放中，每个标记只会被自动跳过一次。
 - 自动跳过片头和自动跳过片尾功能仅在项目存在标记时生效。
-- Windows 用户运行脚本后，若没有任何反应，请将启动脚本中的 `python3` 替换为 `python` 再运行。
+- 若脚本在 Windows 上运行后没有反应，请将启动脚本中的 `python3` 替换为 `python` 再运行。
 
 ## 赞赏
-如果你觉得这个项目对你有用，可以请我喝杯咖啡。如果你喜欢这个项目，可以给我一个⭐️。谢谢你的支持！
+如果你觉得这个项目对你有用，可以考虑请我喝杯咖啡或者给我一个⭐️。谢谢你的支持！
 
-<img width="399" alt="赞赏" src="https://github.com/x1ao4/desktop-skipper-for-plex/assets/112841659/938ec50b-af14-4dbb-a8e2-0cd63352e492">
+<img width="383" alt="赞赏" src="https://github.com/user-attachments/assets/bdd2226b-6282-439d-be92-5311b6e9d29c">
 <br><br>
 <a href="#desktop-skipper-for-plex-zh">回到顶部</a>
 <br>
@@ -89,7 +89,7 @@ In October 2023, Plex added [features](https://forums.plex.tv/t/player-experienc
 
 Since the remote control (Advertise as Player) feature for Plex for Windows/Mac was [removed](https://forums.plex.tv/t/plex-for-mac-windows-and-linux/446435/63) a long time ago, we cannot remotely control these players via API or other means. I couldn’t find any automation tool supporting Plex for Windows or Plex for Mac, so I wrote this script myself.
 
-When watching videos on Plex for Windows/Mac, you can use Desktop Skipper for Plex (hereinafter referred to as DSP) to simulate keyboard actions. When the playback reaches the intro marker (if present), the credits marker (if present), or the auto play countdown, DSP simulates pressing the `Enter` or `Space` key to automatically skip the intro, skip the credits, and auto-play the next item (with customizable auto play countdown times).
+When watching videos on Plex for Windows/Mac, you can use Desktop Skipper for Plex (hereafter referred to as DSP) to simulate keyboard actions. When the playback reaches the intro marker (if present), the credits marker (if present), or the auto play countdown, DSP simulates pressing the `Enter` or `Space` key to automatically skip the intro, skip the credits, and auto-play the next item (with customizable auto play countdown times).
 
 ## Instructions
 - DSP only works for video playback on the specified server.
@@ -98,7 +98,7 @@ When watching videos on Plex for Windows/Mac, you can use Desktop Skipper for Pl
 - DSP only works for Plex for Windows/Mac.
 
 ## Configuration
-Before using DSP, please configure the `/config/config.ini` file according to the following tips (example).
+Before running, please configure the `/config/config.ini` file according to the following tips (example).
 ```
 [server]
 # Address of the Plex server, formatted as http://server IP address:32400 or http(s)://domain:port
@@ -128,9 +128,9 @@ The features to automatically skip intro, skip credits, and play the next item a
 
 ## Requirements
 - Python 3.6 or higher installed.
-- Necessary third-party libraries installed using the command `pip3 install -r requirements.txt`.
+- All required dependencies installed using `pip3 install -r requirements.txt`.
 
-## Usage
+## How to Use
 1. Download the latest release package from [Releases](https://github.com/x1ao4/desktop-skipper-for-plex/releases) and extract it to a local directory.
 2. Open the `/config/config.ini` file in the directory with a text editor, fill in your Plex server address (`address`) and [X-Plex-Token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/) (`token`), and fill in other configuration options as needed.
 3. Double-click `dsp.bat (Win)` or `dsp.command (Mac)` to start DSP.
@@ -154,11 +154,11 @@ If the script fails to run after being set as a startup task, you may need to re
 - After modifying the configuration file, restart the script for the new settings to take effect.
 - During the same playback session, each marker will only be skipped automatically once.
 - The automatic intro skipping and automatic credits skipping functions only take effect when there are markers present in the item.
-- If Windows users see no response after running the script, try replacing `python3` with `python` in the startup script.
+- If it doesn't respond on Windows, try replacing `python3` with `python` in the startup script.
 
 ## Support
 If you found this helpful, consider buying me a coffee or giving it a ⭐️. Thanks for your support!
 
-<img width="399" alt="Support" src="https://github.com/x1ao4/desktop-skipper-for-plex/assets/112841659/938ec50b-af14-4dbb-a8e2-0cd63352e492">
+<img width="383" alt="Support" src="https://github.com/user-attachments/assets/bdd2226b-6282-439d-be92-5311b6e9d29c">
 <br><br>
 <a href="#desktop-skipper-for-plex-en">Back to Top</a>
